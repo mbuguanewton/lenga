@@ -1,0 +1,17 @@
+package com.lenga.lenga_app
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+
+/** Restarts blocking and calendar alarms after a reboot or app update. */
+class BootReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED -> {
+                CalendarBlockScheduler.schedule(context)
+                BlockerService.startIfNeeded(context)
+            }
+        }
+    }
+}
